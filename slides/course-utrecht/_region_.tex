@@ -1,0 +1,550 @@
+\message{ !name(cours-6.tex)}\ifdefined\ishandout
+\documentclass[handout]{beamer}
+\else
+\documentclass{beamer}
+\fi
+
+\usepackage[frenchb]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{fancyvrb}
+\usepackage{tikz}
+\usepackage{framed}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{color, colortbl}
+\ifdefined\ishandout
+\usepackage{handoutWithNotes}
+\fi
+\usepackage{slashbox}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{hhline}
+
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.arrows, chains}
+\usetikzlibrary{arrows,calc}
+\usetikzlibrary{shapes.multipart}
+\usepackage{array}
+\usetheme{Boadilla}
+
+\usefonttheme[onlymath]{serif}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\Cov}{\text{Cov}}
+\ifdefined\ishandout
+\pgfpagesuselayout{3 on 1 with notes}[a4paper,border shrink=5mm]
+\usecolortheme{dove}
+\else
+%\usecolortheme{dolphin}
+\usecolortheme{beaver}
+\fi
+
+
+\lstnewenvironment{codeC}
+{ \lstset{language=C,
+    otherkeywords={printf,scanf}}
+}
+{}
+
+\ifdefined\ishandout
+\definecolor{mygreen}{rgb}{0,0,0}
+\definecolor{mymauve}{rgb}{0,0,0}
+\definecolor{myblue}{rgb}{0,0,0}
+\else
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{myblue}{rgb}{0,0,1}
+
+\fi
+
+%% Notes
+%\setbeameroption{show only notes}
+
+
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+
+\lstset{ language=Python,%
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=tb,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  otherkeywords={*,...},           % if you want to add more keywords to the set
+  numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=3,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+%\lstset{language=Python,
+% breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+%  breaklines=true,                 % sets automatic line breaking
+%  captionpos=b,                
+%%commentstyle=\itshape\color{mymauve},
+%%keywordstyle=\bfseries\color{myblue},
+%numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+%  numbersep=8pt,                   % how far the line-numbers are from the code
+%  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+%%  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+%  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+%%  showstringspaces=false,          % underline spaces within strings only
+%  showtabs=false,                  % show tabs within strings adding particular underscores
+%  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+%%  stringstyle=\color{mygreen},     % string literal style
+%  tabsize=2 
+%}
+\ifdefined\ishandout
+\newcommand{\red}{\textbf}
+\else
+\newcommand{\red}{\textcolor{red}}
+\fi
+%\newcommand \emph
+%Default size : 12.8 cm * 9.6 cm
+
+\newcommand{\tmark}[1]{\tikz[remember picture, baseline=-.5ex]{\coordinate(#1);}}
+
+\ifdefined\ishandout
+\newenvironment<>{codeblock}[1]{%begin
+  \setbeamercolor{block title}{fg=black,bg=lightgray!80}%
+  \begin{block}{#1}}
+  % \begin{codeC}}
+  %  {\end{codeC}
+{  
+\end{block}}
+
+\newenvironment<>{termblock}[1]{
+    \setbeamercolor{block title}{fg=black,bg=lightgray!90}%
+    \begin{block}{#1}
+}
+%     \begin{Verbatim}}
+{%\end{Verbatim}
+\end{block}
+}
+
+\definecolor{bluegreen}{RGB}{0,0,0}
+%\definecolor{bluegreen}{rgb}{0,0.6,0.8}
+\else
+
+\newenvironment<>{codeblock}[1]{%begin
+  \setbeamercolor{block title}{fg=darkgray,bg=yellow}%
+  \begin{block}{#1}}
+  % \begin{codeC}}
+  %  {\end{codeC}
+{  
+\end{block}}
+
+\newenvironment<>{termblock}[1]{
+    \setbeamercolor{block title}{fg=white,bg=lightgray}%
+    \begin{block}{#1}}
+%     \begin{Verbatim}}
+{%\end{Verbatim}
+\end{block}
+}
+
+\definecolor{bluegreen}{RGB}{0,149,182}
+%\definecolor{bluegreen}{rgb}{0,0.6,0.8}
+\fi
+
+%\newcommand{\output}[1]{
+\setbeamertemplate{navigation symbols}{}
+\newcommand{\bvrb}{\Verb[commandchars=£µ§,formatcom=\color{bluegreen}]}
+\newcommand{\footvrb}{\footnotesize\Verb}
+\newcommand{\vrbalert}[2][]{\visible<#1>{#2}}
+%%% Commande pour les listes/arbres
+\newcommand{\mvide}{\nodepart{one} \nodepart{two}}
+\newcommand{\tvide}{\nodepart{one} \nodepart{two} \nodepart{three}}
+
+%%Fin des commandes pour les listes/arbres.
+
+
+
+%%% Paramètres du cours (à régler)
+%Numéro du cours
+\newcommand{\nb}{1}
+
+\title[non-linear]{Toward non-linear regression/classification}
+\author[non-linear]{julien.brajard@upmc.fr}
+\institute[UPMC]{UPMC}
+\date{1-5 August 2016}
+\begin{document}
+
+\message{ !name(cours-6.tex) !offset(-3) }
+
+%%%%%%%%%%%%%%%%%%%%% SLIDES DE TITRE
+\begin{frame}
+\titlepage
+%\centering{
+%\url{http://australe.upmc.fr} (onglet EPU-C5-IGE Info Gen)}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Polynomial regression}
+
+results for maxdeg 15 and different value of alpha
+lasso regression
+results for maxdeg 15 and different value of alpha
+why it can be exactly zeros
+model selection
+learning/test/
+validation
+\end{frame}
+\begin{frame}
+\frametitle{Example of a non-linear relashionship}
+\begin{figure}
+\includegraphics[height=0.55\textheight]{./fig/scatter.png}
+\end{figure}
+\begin{block}{An idea}
+We could take an polynomial hypothesis model:
+$$
+h_{\bm{\theta}}(x) = \theta_0 x^0 + \theta_1 x^1 + \ldots + \theta_p x^p
+$$
+\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Example}
+$\{(x_1,y_1),\ldots,(x_n,y_n)\}$ is the learning dataset.
+
+For a given polynom degree $p$, parameters $\bm{\theta}$ are determined minimizing the 
+least-mean square cost function:
+$$
+J(\bm{\theta}) = \frac{1}{n} \sum (y_i - h_{\bm{\theta}}(x_i))^2
+$$
+with $h_{\bm{\theta}}(x) = \theta_0 x^0 + \theta_1 x^1 + \ldots + \theta_p x^p$
+\begin{itemize}[<+->]
+\item It can be determined using a gradient descent method
+\item If the degree of the polynom $p=1$, it is a simple linear regression
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{A first result}
+\vspace{-2em}
+\begin{columns}[t]
+\column{.5\textwidth}
+\begin{figure}
+$p=1$ (linear regression)\\
+\includegraphics[width=0.99\textwidth]{./fig/linreg_pow1.png}
+\end{figure}
+\column{.5\textwidth}
+\begin{figure}
+residuals\\
+\includegraphics[width=0.99\textwidth]{./fig/residuals.png}
+\end{figure}
+
+\end{columns}
+\begin{block}{Prediction error}
+$$
+\text{err} = \frac{1}{n}\sum \text{res}^2 = 5.46e-2
+$$
+\end{block}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Increasing the polynomial degree ?}
+\begin{columns}
+\column{.5\textwidth}
+\begin{figure}
+$p=3$ (cubic regression)\\
+\includegraphics[width=0.99\textwidth]{./fig/linreg_pow3.png}
+\end{figure}
+\column{.5\textwidth}
+\begin{block}{Prediction error}
+$$
+\text{err} = \frac{1}{n}\sum \text{res}^2 = 1.80e-2
+$$
+\end{block}
+\end{columns}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Is it different from the linear regression ?}
+Let's consider :
+$$
+\bm{x} = 
+\begin{pmatrix}
+1 \\
+x^1 \\
+x^2 \\
+\vdots \\
+x^p
+\end{pmatrix}
+$$
+then
+$$
+h_{\bm{\theta}}(x) = \theta_0  + \theta_1 x^1 + \ldots + \theta_p x^p = \bm{\theta}^T \bm{x}
+$$
+\begin{alertblock}{}
+By extending a scalar predictor to a vector,
+polynomial regression is equivalent to linear regression.
+\end{alertblock}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Increasing the degree ?}
+\begin{columns}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$p=1$
+\includegraphics[width=0.99\textwidth]{./fig/linreg_pow1.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$p=9$
+\includegraphics[width=0.99\textwidth]{./fig/linreg_pow9.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$p=3$
+\includegraphics[width=0.99\textwidth]{./fig/linreg_pow3.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$p=12$
+\includegraphics[width=0.99\textwidth]{./fig/linreg_pow12.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$p=4$
+\includegraphics[width=0.99\textwidth]{./fig/linreg_pow4.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$p=15$
+\includegraphics[width=0.99\textwidth]{./fig/linreg_pow15.png}
+\end{figure}
+\end{columns}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Overfitting}
+\begin{block}{}
+When there is to many paramaters to fit, the model can reproduce 
+a random noise, it is called \alert{overfitting}
+\end{block}
+\pause
+\begin{table}
+\resizebox{\textwidth}{!}{%
+\input{./coeflin}}
+\end{table}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{High parameters values}
+\begin{figure}
+Value of the parameters $|\theta_1|$ with respect with the degree of the polynomial
+regression\\
+\includegraphics[height=0.75\textheight]{./fig/coefs_th1.png}
+\end{figure}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Regularization}
+\begin{block}{The idea}
+The idea of regularization is to perform a regression minimizing a cost function
+that includes a term to penalize "big" values for the parameters:
+$$
+J(\bm{\theta}) = \frac{1}{n} \sum (y_i - h_{\bm{\theta}}(x_i))^2 + \alpha P(\bm{\theta})
+$$
+\end{block}
+\pause
+We consider two penality terms:
+\begin{itemize}[<+->]
+\item \alert{Ridge Regularization:} $P(\bm{\theta}) = \sum_{i=0}^p \theta_i^2$
+\item \alert{Lasso Regularization:} $P(\bm{\theta}) = \sum_{i=0}^p |\theta_i|$
+\item Elastic Net combines both regulariztion
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Ridge regression}
+\begin{block}{}
+Ridge regression is a linear regression with a Ridge regularization:
+$$
+J(\bm{\theta}) = \frac{1}{n} \sum (y_i - h_{\bm{\theta}}(x_i))^2 + \alpha \sum_{i=0}^p \theta_i^2
+$$
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Results for $p=15$ and varying $\alpha$}
+\begin{columns}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=0$
+\includegraphics[width=0.99\textwidth]{./fig/ridge_alpha0.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-3$
+\includegraphics[width=0.99\textwidth]{./fig/ridge_alpha1e-3.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-15$
+\includegraphics[width=0.99\textwidth]{./fig/ridge_alpha1e-15.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-2$
+\includegraphics[width=0.99\textwidth]{./fig/ridge_alpha1e-2.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-4$
+\includegraphics[width=0.99\textwidth]{./fig/ridge_alpha1e-4.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=5$
+\includegraphics[width=0.99\textwidth]{./fig/ridge_alpha5.png}
+\end{figure}
+\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Values of coefficients}
+\vspace{-2em}
+\begin{table}
+\resizebox{\textwidth}{!}{%
+\input{./coefridge}}
+\end{table}
+\begin{figure}
+\includegraphics[height=0.4\textheight]{./fig/coefs_th5_ridge.png}\\
+Value of $\theta_5$
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Lasso regression}
+\begin{block}{}
+Lasso regression is a linear regression with a Lasso regularization:
+$$
+J(\bm{\theta}) = \frac{1}{n} \sum (y_i - h_{\bm{\theta}}(x_i))^2 + \alpha \sum_{i=0}^p |\theta_i
+$$
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Results for $p=15$ and varying $\alpha$}
+\begin{columns}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=0$
+\includegraphics[width=0.99\textwidth]{./fig/lasso_alpha0.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-3$
+\includegraphics[width=0.99\textwidth]{./fig/lasso_alpha1e-3.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-15$
+\includegraphics[width=0.99\textwidth]{./fig/lasso_alpha1e-15.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-2$
+\includegraphics[width=0.99\textwidth]{./fig/lasso_alpha1e-2.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-4$
+\includegraphics[width=0.99\textwidth]{./fig/lasso_alpha1e-4.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=5$
+\includegraphics[width=0.99\textwidth]{./fig/lasso_alpha5.png}
+\end{figure}
+\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Values of coefficients}
+\vspace{-2em}
+\begin{table}
+\resizebox{\textwidth}{!}{%
+\input{./coeflasso}}
+\end{table}
+\begin{figure}
+\includegraphics[height=0.4\textheight]{./fig/coefs_th5_lasso.png}\\
+Value of $\theta_5$
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Learning/Validation dataset}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Test dataset}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Perceptron}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{}
+\end{frame}
+
+\end{document}
+\message{ !name(cours-6.tex) !offset(-550) }
