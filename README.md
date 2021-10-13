@@ -6,7 +6,7 @@ Internal ML course/practical demonstration intern to NERSC
 ### Instruction for working on a cloud (recommended)
 Run the tutorial in a cloud computing provider (require Google login):
 
-- **Practice 1:** Introduction and linear regression [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/nansencenter/nersc_ml_course/blob/main/p1_linear_regression.ipynb)
+- **Practice 1:** Introduction and linear regression [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nansencenter/nersc_ml_course/blob/main/notebooks/p1_linear_regression.ipynb)
 
 ### Instructions for working locally
 
