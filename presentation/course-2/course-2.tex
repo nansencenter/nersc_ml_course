@@ -438,28 +438,427 @@ We will use a polynomial regression and chose the polynomial degree of the best 
 
 
 %%%%%%%%%%%%%%%%
-\begin{frame}{Result with random split}
+\begin{frame}{One approach: block split}
 
+\begin{columns}
+\column{.5\textwidth}
+  \begin{figure}
+  \centering
+  Random split (15\%)
+    \includegraphics[width=\textwidth]{presentation/course-2/figs/leak_ts_random_nopred.png}
+    \end{figure}
+    \column{.5\textwidth}
+  \begin{figure}
+  \centering
+  Block split (15\%)
+    \includegraphics[width=\textwidth]{presentation/course-2/figs/leak_ts_block_nopred.png}
+    \end{figure}
+\end{columns}
+\end{frame}
 %%%%%%%%%%%%%%%%
-\begin{frame}{Result with random split}
+\begin{frame}{Result with block split}
 \begin{columns}
 \column{.5\textwidth}
    \begin{figure}
-    \includegraphics[width=.9\textwidth]{presentation/course-2/figs/leak_bar_random.png}
+    \includegraphics[width=.9\textwidth]{presentation/course-2/figs/leak_bar_block.png}
     \end{figure}
     
 \column{.5\textwidth}
    \begin{figure}
-    \includegraphics[width=.9\textwidth]{presentation/course-2/figs/leak_ts_random.png}
+    \includegraphics[width=.9\textwidth]{presentation/course-2/figs/leak_ts_block.png}
     \end{figure}
 \end{columns}
 
    \begin{figure}
    \centering
-   Can the model determine ($d=7$) generalize to new data? (year > 100)\\
+   Can the model determine ($d=1$) generalize to new data? (year > 100)\\
    \pause
-    \includegraphics[width=.5\textwidth]{presentation/course-2/figs/leak_test_random.png}
+    \includegraphics[width=.5\textwidth]{presentation/course-2/figs/leak_test_block.png}
     \end{figure}
+\end{frame}
+\section{L1/L2 regularization}
+
+\begin{frame}
+\frametitle{Example of a non-linear relationship}
+\begin{figure}
+\includegraphics[height=0.55\textheight]{./scatter.png}
+\end{figure}
+\begin{block}{An idea}
+We could take an polynomial hypothesis model:
+$$
+h_{\bm{\theta}}(x) = \theta_0 x^0 + \theta_1 x^1 + \ldots + \theta_p x^p
+$$
+\end{block}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Example}
+$\{(x_1,y_1),\ldots,(x_n,y_n)\}$ is the learning dataset.
+
+For a given polynomial degree $p$, parameters $\bm{\theta}$ are determined minimizing the 
+least-mean square cost function:
+$$
+J(\bm{\theta}) = \frac{1}{n} \sum (y_i - h_{\bm{\theta}}(x_i))^2
+$$
+with $h_{\bm{\theta}}(x) = \theta_0 x^0 + \theta_1 x^1 + \ldots + \theta_p x^p$
+\begin{itemize}[<+->]
+\item It can be determined using a gradient descent method
+\item If the degree of the polynomial $p=1$, it is a simple linear regression
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{A first result}
+\vspace{-2em}
+\begin{columns}[t]
+\column{.5\textwidth}
+\begin{figure}
+$p=1$ (linear regression)\\
+\includegraphics[width=0.99\textwidth]{./linreg_pow1.png}
+\end{figure}
+\column{.5\textwidth}
+\begin{figure}
+residuals\\
+\includegraphics[width=0.99\textwidth]{./residuals.png}
+\end{figure}
+
+\end{columns}
+\begin{block}{Prediction error}
+$$
+\text{err} = \frac{1}{n}\sum \text{res}^2 = 5.46e-2
+$$
+\end{block}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Increasing the polynomial degree ?}
+\begin{columns}
+\column{.5\textwidth}
+\begin{figure}
+$p=3$ (cubic regression)\\
+\includegraphics[width=0.99\textwidth]{./linreg_pow3.png}
+\end{figure}
+\column{.5\textwidth}
+\begin{block}{Prediction error}
+$$
+\text{err} = \frac{1}{n}\sum \text{res}^2 = 1.80e-2
+$$
+\end{block}
+\end{columns}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Is it different from the linear regression ?}
+Let's consider :
+$$
+\bm{x} = 
+\begin{pmatrix}
+1 \\
+x^1 \\
+x^2 \\
+\vdots \\
+x^p
+\end{pmatrix}
+$$
+then
+$$
+h_{\bm{\theta}}(x) = \theta_0  + \theta_1 x^1 + \ldots + \theta_p x^p = \bm{\theta}^T \bm{x}
+$$
+\begin{alertblock}{}
+By extending a scalar predictor to a vector,
+polynomial regression is equivalent to linear regression.
+\end{alertblock}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Increasing the degree ?}
+\begin{columns}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$p=1$
+\includegraphics[width=0.99\textwidth]{./linreg_pow1.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$p=9$
+\includegraphics[width=0.99\textwidth]{./linreg_pow9.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$p=3$
+\includegraphics[width=0.99\textwidth]{./linreg_pow3.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$p=12$
+\includegraphics[width=0.99\textwidth]{./linreg_pow12.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$p=4$
+\includegraphics[width=0.99\textwidth]{./linreg_pow4.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$p=15$
+\includegraphics[width=0.99\textwidth]{./linreg_pow15.png}
+\end{figure}
+\end{columns}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Overfitting}
+\begin{block}{}
+When there is to many paramaters to fit, the model can reproduce 
+a random noise, it is called \alert{overfitting}
+\end{block}
+\pause
+\begin{table}
+\resizebox{\textwidth}{!}{%
+\input{./coeflin}}
+\end{table}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{High parameters values}
+\begin{figure}
+Value of the parameters $|\theta_1|$ with respect with the degree of the polynomial
+regression\\
+\includegraphics[height=0.75\textheight]{./coefs_th1.png}
+\end{figure}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Regularization}
+\begin{block}{The idea}
+The idea of regularization is to perform a regression minimizing a cost function
+that includes a term to penalize "big" values for the parameters:
+$$
+J(\bm{\theta}) = \frac{1}{n} \sum (y_i - h_{\bm{\theta}}(x_i))^2 + \alpha P(\bm{\theta})
+$$
+\end{block}
+\pause
+We consider two penalty terms:
+\begin{itemize}[<+->]
+\item \alert{Ridge Regularization (L2):} $P(\bm{\theta}) = \sum_{i=0}^p \theta_i^2$
+\item \alert{Lasso Regularization (L1):} $P(\bm{\theta}) = \sum_{i=0}^p |\theta_i|$
+\item Elastic Net combines both regularization
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Ridge regression (L2)}
+\begin{block}{}
+Ridge regression is a linear regression with a Ridge regularization:
+$$
+J(\bm{\theta}) = \frac{1}{n} \sum (y_i - h_{\bm{\theta}}(x_i))^2 + \alpha \sum_{i=0}^p \theta_i^2
+$$
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Results for $p=15$ and varying $\alpha$}
+\begin{columns}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=0$
+\includegraphics[width=0.99\textwidth]{./ridge_alpha0.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-3$
+\includegraphics[width=0.99\textwidth]{./ridge_alpha1e-3.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-15$
+\includegraphics[width=0.99\textwidth]{./ridge_alpha1e-15.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-2$
+\includegraphics[width=0.99\textwidth]{./ridge_alpha1e-2.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-4$
+\includegraphics[width=0.99\textwidth]{./ridge_alpha1e-4.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=5$
+\includegraphics[width=0.99\textwidth]{./ridge_alpha5.png}
+\end{figure}
+\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Values of coefficients}
+\vspace{-2em}
+\begin{table}
+\resizebox{\textwidth}{!}{%
+\input{./coefridge}}
+\end{table}
+\begin{figure}
+\includegraphics[height=0.4\textheight]{./coefs_th5_ridge.png}\\
+Value of $\theta_5$
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Determination of the parameters in the ridge regression}
+Considering the cost function J:
+$$
+J(\bm{\theta}) =J_{lms}(\bm{\theta}) + \alpha \sum_{i=0}^p \theta_i^2
+$$
+In a gradient algorithm, update of the parameters:
+
+$\theta^{k+1}_i = \theta^k_i - \nu.(\frac{\partial J_{lms}}{D\theta_i} - 2\alpha\theta^k_i)$
+
+So the update rule is:
+$$
+\theta^{k+1}_i = \theta^k_i(1-2 \nu \alpha) - \Delta_{lms}
+$$
+where
+$\Delta_{lms}$ is the update in case of non-regularized regression
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Lasso regression (L1)}
+\begin{block}{}
+Lasso regression is a linear regression with a Lasso regularization:
+$$
+J(\bm{\theta}) = \frac{1}{n} \sum (y_i - h_{\bm{\theta}}(x_i))^2 + \alpha \sum_{i=0}^p |\theta_i|
+$$
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Results for $p=15$ and varying $\alpha$}
+\begin{columns}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=0$
+\includegraphics[width=0.99\textwidth]{./lasso_alpha0.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-3$
+\includegraphics[width=0.99\textwidth]{./lasso_alpha1e-3.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-15$
+\includegraphics[width=0.99\textwidth]{./lasso_alpha1e-15.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-2$
+\includegraphics[width=0.99\textwidth]{./lasso_alpha1e-2.png}
+\end{figure}
+\column{.33\textwidth}
+\vspace{-2em}
+\begin{figure}
+$\alpha=1e-4$
+\includegraphics[width=0.99\textwidth]{./lasso_alpha1e-4.png}
+\end{figure}
+\vspace{-2em}
+\begin{figure}
+$\alpha=5$
+\includegraphics[width=0.99\textwidth]{./lasso_alpha5.png}
+\end{figure}
+\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Values of coefficients}
+\vspace{-2em}
+\begin{table}
+\resizebox{\textwidth}{!}{%
+\input{./coeflasso}}
+\end{table}
+\begin{figure}
+\includegraphics[height=0.4\textheight]{./coefs_th5_lasso.png}\\
+Value of $\theta_5$
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Determination of the parameters in the lasso regression}
+Considering the cost function J:
+$$
+J(\bm{\theta}) =J_{lms}(\bm{\theta}) + \alpha \sum_{i=0}^p |\theta_i|
+$$
+In a gradient algorithm, update of the parameters would be:
+
+J is not differentiable.
+If we consider $\theta_{lms} = \theta_i^k -\nu.\frac{\partial J_{lms}}{D\theta_i} $
+
+The update rule is:
+\begin{itemize}
+\item $\theta_i^{k+1} = \theta_{lms} + \alpha \nu$  if $\theta_{lms} < -\alpha \nu$
+\item $\theta_i^k = 0$ if $-\alpha \nu < \theta_{lms} < \alpha \nu$
+\item $\theta_i^{k+1} = \theta_{lms} - \alpha \nu$  if $\theta_{lms} > \alpha \nu$
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Summary of parameters updates}
+\begin{figure}
+\includegraphics[height=0.8\textheight]{./updates.png}
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+\frametitle{Comparison Ridge/Lasso}
+\begin{exampleblock}{Ridge (L2)}
+\begin{itemize}
+\item Prevents the overfitting
+\item includes all the features (dimensions) of the predictor, 
+so it can be useless for high dimensional predictors
+\end{itemize}
+\end{exampleblock}
+\pause
+\begin{alertblock}{Lasso (L1)}
+\begin{itemize}
+\item Provides sparse solutions and reduce the dimension of the
+predictor
+\item If some features in the predictor are correlated, arbitrarily select
+one from the others.
+\end{itemize}
+\end{alertblock}
 \end{frame}
 
 
