@@ -1,8 +1,14 @@
-# nersc_ml_course
-
+# Course ML at NERSC
 Internal ML course/practical demonstration intern to NERSC
 
----
+
+## Link to the slides
+- Session 1 : Introduction, generalities on machine learning ([pdf](presentation/course-1/course-1.pdf))
+- Session 2 : Validation, overfitting, regularization ([pdf](presentation/course-2/course-2.pdf))
+
+
+## Practical demonstration
+
 ### Instruction for working on a cloud (recommended)
 Run the tutorial in a cloud computing provider (require Google login):
 
