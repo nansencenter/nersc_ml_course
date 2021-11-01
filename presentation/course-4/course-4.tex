@@ -160,7 +160,7 @@
 %Numéro du cours
 \newcommand{\nb}{1}
 
-\title[Machine Learning]{Machine learning and physical (Earth system) modelling - course 4}
+\title[Machine Learning]{Part 4: Neural networks}
 \author[J. Brajard]{julien.brajard@nersc.no}
 \institute[NERSC]{NERSC\\
 slides+notebook: \url{https://github.com/nansencenter/nersc_ml_course}}
@@ -345,33 +345,7 @@ More complexe models are build by combining several perceptrons
 \end{frame}
 
 
-\begin{frame}{Classification and regression loss}
-  
-   \begin{columns}
-   \column{.5\textwidth}
-   \alert{Regression}
-   \begin{itemize}
-       \item Last layer:\\
-       linear or hyperbolic tangent
-       \item Loss function:\\
-       $$L(\hat{y},y) = \sum_i (\hat{y}_i-y_i)^2$$
-   \end{itemize}
-   \pause
-\column{.5\textwidth}
-       \alert{Classification}
-   \begin{itemize}
-       \item Last layer:\\
-       Soft-max
-       $$
-       p_j=f_j(\mathbf{h}) = \frac{e^{h_j}}{\sum_k e^{h_k}}
-       $$
-       
-       \item Loss function:\\
-       Negative crossentropy
-       $$L(p,y) = -\sum_i \sum_j y_{i,j}.\log{p_{i,j}}$$
-   \end{itemize}
-   \end{columns}
-\end{frame}
+
 
 \begin{frame}{Classification loss (binary case)}
 Objective: binary classification (the model determine if the input feature is in a class or not)\\
@@ -467,7 +441,33 @@ Dataset:
  $$L = -\sum_i \sum_j y_{i,j}.\log{p_{i,j}}$$
 \end{enumerate}    
 \end{frame}
-
+\begin{frame}{Classification and regression loss}
+  
+   \begin{columns}
+   \column{.5\textwidth}
+   \alert{Regression}
+   \begin{itemize}
+       \item Last layer:\\
+       linear or hyperbolic tangent
+       \item Loss function:\\
+       $$L(\hat{y},y) = \sum_i (\hat{y}_i-y_i)^2$$
+   \end{itemize}
+   \pause
+\column{.5\textwidth}
+       \alert{Classification}
+   \begin{itemize}
+       \item Last layer:\\
+       Soft-max
+       $$
+       p_j=f_j(\mathbf{h}) = \frac{e^{h_j}}{\sum_k e^{h_k}}
+       $$
+       
+       \item Loss function:\\
+       Negative crossentropy
+       $$L(p,y) = -\sum_i \sum_j y_{i,j}.\log{p_{i,j}}$$
+   \end{itemize}
+   \end{columns}
+\end{frame}
 \section{Optimization using gradient descent}
 \begin{frame}{What is gradient descent}
 \begin{block}{Objective}
