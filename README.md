@@ -7,7 +7,7 @@ Internal ML course/practical demonstration intern to NERSC
 - Session 2: Validation, overfitting, regularization ([pdf](presentation/course-2/course-2.pdf))
 - Session 3: Random Forest, grid search ([pdf](presentation/course-3/nersc_ml_course_3.pdf))
 - Session 4: Neural networks ([pdf](presentation/course-4/course-4.pdf))
-
+- Session 5: Convolutional neural networks ([pdf](presentation/course-5/course-5.pdf))
 
 ## Practical demonstration
 
