@@ -19,6 +19,7 @@ Run the tutorial in a cloud computing provider (require Google login):
 - **Practice 3:** Random forests. Grid search. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nansencenter/nersc_ml_course/blob/main/notebooks/p3_random_forest.ipynb)
 - **Practice 4:** Neural networks. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nansencenter/nersc_ml_course/blob/main/notebooks/p4_neural_networks.ipynb)
 - **Practice 5:** Convolutional Neural Networks and Regularizations. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nansencenter/nersc_ml_course/blob/main/notebooks/p5_cnn_regularization.ipynb)
+- **HACKATHON** Data for hackathon. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nansencenter/nersc_ml_course/blob/main/notebooks/p6_hackathon_data.ipynb)
 
 ### Instructions for working locally
 
